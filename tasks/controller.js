@@ -17,6 +17,14 @@ const getTasks = (req, res) => {
   });
 }
 
+const getTaskByID = (req, res) => {
+  const id = req.params.id;
+  pool.query(queries.getTaskByID, [id], (error, results) => {
+    if(error) throw error;
+    res.status(200).send(results.rows);
+  });
+}
+
 const updateTask = (req, res) => {
   var datetime = new Date();
   const { id, attribute, value } = req.body;
@@ -30,15 +38,37 @@ const updateTask = (req, res) => {
 const deleteTask = (req, res) => {
   var datetime = new Date();
   const { id } = req.body;
-  pool.query(queries.deleteTask, [id], (error, results) => {
+  pool.query(queries.deleteTask, [datetime, id], (error, results) => {
     if(error) throw error;
     res.status(200).send("Task deleted successfully!");
   })
 }
 
+const markAsComplete = (req, res) => {
+  var datetime = new Date();
+  const { id } = req.body;
+  if((typeof id) === "number"){
+    pool.query(queries.markAsComplete, [datetime, id], (error, results) => {
+      if(error) throw error;
+      res.status(200).send("Task marked as completed!");
+    })
+  }
+  else{
+    for(var i=0; i<id.length; i++){
+      pool.query(queries.markAsComplete, [datetime, id[i]], (error, results) => {
+        if(error) throw error;
+        console.log(`Task with ID: ${id[i]} marked as completed!`);
+      })
+    }
+    res.status(200).send("All tasks marked as completed!");
+  }
+}
+
 module.exports = {
   addTask,
   getTasks,
+  getTaskByID,
   updateTask,
+  markAsComplete,
   deleteTask,
 }

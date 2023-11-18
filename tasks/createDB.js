@@ -11,13 +11,12 @@ const client = new Client({
 async function createDB(){
   await client.connect();
 
-  await client.query("CREATE DATABASE testdb;", (error, results) => {
-    console.log("DB created!");
-  });
+  await client.query("CREATE DATABASE testdb;");
+  console.log("DB created!");
 
   await client.end();
 
-  pool.query("CREATE TABLE tasks(ID INT PRIMARY KEY NOT NULL, DEADLINE DATE, CATEGORY TEXT, STATUS TEXT, DESCRIPTION TEXT, DELETE_STATUS BOOLEAN NOT NULL, LAST_UPDATE DATE NOT NULL);", (error, results) => {
+  pool.query("CREATE TABLE tasks(ID SERIAL PRIMARY KEY, DEADLINE DATE, CATEGORY TEXT, STATUS TEXT, DESCRIPTION TEXT, DELETE_STATUS BOOLEAN NOT NULL, LAST_UPDATE DATE NOT NULL);", (error, results) => {
     if(error) throw error;
     console.log("Table created!");
   })
