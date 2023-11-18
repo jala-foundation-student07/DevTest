@@ -11,9 +11,33 @@ const addTask = (req, res) => {
 }
 
 const getTasks = (req, res) => {
+  const { sortDeadline=false, filterCategory='', filterStatus=false } = req.body;
   pool.query(queries.getTasks, (error, results) => {
     if(error) throw error;
-    res.status(200).send(results.rows);
+    var result = results.rows;
+    //Sort by deadline
+    if(sortDeadline){
+      result.sort(function (a,b){
+        if(a.deadline>b.deadline) return 1;
+        if(a.deadline<b.deadline) return -1;
+        return 0;
+      });
+    }
+    //Filter by category
+    if(filterCategory){
+      result = result.filter(function (value){
+        if(value.category === filterCategory) return true;
+        return false;
+      });
+    }
+    //Filter by status
+    if(filterStatus){
+      result = result.filter(function (value){
+        if(value.status === filterStatus) return true;
+        return false;
+      });
+    }
+    res.status(200).send(result);
   });
 }
 
