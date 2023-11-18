@@ -1,6 +1,5 @@
 const addTask = "INSERT INTO tasks(DEADLINE, CATEGORY, STATUS, DESCRIPTION, DELETE_STATUS, LAST_UPDATE) VALUES($1, $2, $3, $4, $5, $6)"; //C
 const getTasks = "SELECT * FROM tasks;"; //R
-
 function updateTask(field){
   switch(field){
     case 'deadline':
@@ -19,9 +18,11 @@ function updateTask(field){
       return false;
   }
 }
+const deleteTask = "DELETE FROM tasks WHERE id = $1"; //D
 
 module.exports = {
   addTask,
   getTasks,
   updateTask,
+  deleteTask,
 }

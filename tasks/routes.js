@@ -6,6 +6,8 @@ router.post('/', controller.addTask); //C
 
 router.get('/', controller.getTasks); //R
 
-router.patch('/', controller.updateTask);
+router.patch('/', controller.updateTask); //U
+
+router.delete('/', controller.deleteTask); //D
 
 module.exports = router;

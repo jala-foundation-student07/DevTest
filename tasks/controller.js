@@ -27,8 +27,18 @@ const updateTask = (req, res) => {
   })
 }
 
+const deleteTask = (req, res) => {
+  var datetime = new Date();
+  const { id } = req.body;
+  pool.query(queries.deleteTask, [id], (error, results) => {
+    if(error) throw error;
+    res.status(200).send("Task deleted successfully!");
+  })
+}
+
 module.exports = {
   addTask,
   getTasks,
   updateTask,
+  deleteTask,
 }
