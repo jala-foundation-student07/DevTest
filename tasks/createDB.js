@@ -9,16 +9,13 @@ const client = new Client({
 });
 
 async function createDB(){
-  /*
   await client.connect();
 
   await client.query("CREATE DATABASE testdb;", (error, results) => {
-    if(error) throw error;
     console.log("DB created!");
   });
 
   await client.end();
-  */
 
   pool.query("CREATE TABLE tasks(ID INT PRIMARY KEY NOT NULL, DEADLINE DATE, CATEGORY TEXT, STATUS TEXT, DESCRIPTION TEXT, DELETE_STATUS BOOLEAN NOT NULL, LAST_UPDATE DATE NOT NULL);", (error, results) => {
     if(error) throw error;
