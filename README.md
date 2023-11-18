@@ -33,3 +33,13 @@ nodemon
 ```
 
 Open your REST Client and test the API!
+
+# Extra
+
+You can clean the database by running:
+
+```
+docker-compose down
+```
+
+But you will need to run the createDB script again.
